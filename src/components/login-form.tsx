@@ -1,8 +1,13 @@
 "use client";
-
+import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
+import { useState } from "react";
 
 export default function LoginForm() {
+const router = useRouter();
+
+const [error, setError] = useState("");
+
   async function handleSubmit(
     event: React.FormEvent<HTMLFormElement>
   ) {
@@ -17,17 +22,24 @@ export default function LoginForm() {
 
     const password =
       formData.get("password") as string;
+      setError("");
 
-    const result = await signIn(
-      "credentials",
-      {
-        email,
-        password,
-        redirect: false,
-      }
-    );
+    const result = await signIn("credentials", {
+      email,
+      password,
+      redirect: false,
+    });
+    if (result?.error) {
+      setError(
+        "Email atau password salah"
+       );
+     return;
+        }
 
-    console.log(result);
+    if (result?.ok) {
+      router.push("/dashboard");
+    }
+
   }
 
   return (
@@ -51,7 +63,11 @@ export default function LoginForm() {
           className="w-full rounded border p-2"
         />
       </div>
-
+      {error && (
+        <p className="mb-4 text-sm text-red-500">
+          {error}
+        </p>
+      )}  
       <button
         type="submit"
         className="w-full rounded border p-2"

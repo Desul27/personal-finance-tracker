@@ -2,6 +2,7 @@ import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import { authOptions } from "@/lib/auth";
 import LogoutButton  from "@/components/logout-button";
+import Link from "next/link";
 
 export default async function DashboardPage() {
   const session =  await getServerSession(authOptions);
@@ -15,9 +16,12 @@ export default async function DashboardPage() {
       <h1 className="text-3xl font-bold">
         Dashboard
       </h1>
+     <Link href="/transactions/new" className="text-blue-500 underline">Add Transaction</Link> 
+      <br />
+
     <LogoutButton />
       <p>
-        Selamat datang di Personal Finance Tracker
+        Selamat datang di Personal Finance Tracker 
       </p>
 
       <pre>

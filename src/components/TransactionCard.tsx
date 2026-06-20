@@ -34,24 +34,33 @@ export default function TransactionCard({
         <p className="font-bold">
           {transaction.category.name}
         </p>
-
-        <span
-          className={`
-            text-sm
-            border
-            rounded
-            px-2
-            py-1
-            ${
-              transaction.type ===
-              "INCOME"
-                ? "bg-green-100"
-                : "bg-red-100"
-            }
-          `}
-        >
-          {transaction.type}
-        </span>
+                <span
+            className={`
+              text-sm
+              border
+              rounded
+              px-2
+              py-1
+              ${
+                transaction.type === "INCOME"
+                  ? `
+                    bg-green-100
+                    text-green-800
+                    dark:bg-green-900
+                    dark:text-green-200
+                  `
+                  : `
+                    bg-red-100
+                    text-red-800
+                    dark:bg-red-900
+                    dark:text-red-200
+                  `
+              }
+            `}
+          >
+            {transaction.type}
+          </span>
+       
 
       </div>
 

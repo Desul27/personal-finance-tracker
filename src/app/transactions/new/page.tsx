@@ -25,12 +25,33 @@ export default async function NewTransactionPage() {
       <form  action={createTransaction}  className="mt-4 flex flex-col gap-4">
 
         <input
+          className="
+          border
+          rounded
+          p-2
+          bg-white
+          text-black
+          dark:bg-gray-800
+          dark:text-white
+          dark:border-gray-600
+            "            
           type="number"
           name="amount"
           placeholder="Amount"
+
         />
 
-        <select name="categoryId">
+        <select name="categoryId" 
+          className="
+          border
+          rounded
+          p-2
+          bg-white
+          text-black
+          dark:bg-gray-800
+          dark:text-white
+          dark:border-gray-600
+                ">
           <option value="">
             Pilih Kategori
           </option>
@@ -46,12 +67,32 @@ export default async function NewTransactionPage() {
         </select>
 
         <input
+        className="
+              border
+              rounded
+              p-2
+              bg-white
+              text-black
+              dark:bg-gray-800
+              dark:text-white
+              dark:border-gray-600
+          "
           type="text"
           name="description"
           placeholder="Description"
         />
 
         <input
+          className="
+            border
+            rounded
+            p-2
+            bg-white
+            text-black
+            dark:bg-gray-800
+            dark:text-white
+            dark:border-gray-600
+"
           type="date"
           name="date"
         />

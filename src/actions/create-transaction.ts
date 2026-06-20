@@ -82,32 +82,6 @@ const transaction =
     },
   });
 
-console.log(
-  "TRANSACTION:",
-  transaction
-);
-
-
-
-
-
-
-
-console.log(
-  "CATEGORY:",
-  category
-);
-
-  console.log(
-  "SESSION:",
-  session
-  );
-  console.log(
-    "VALIDATION SUCCESS"
-  );
-  console.log(
-    validatedData.data
-  );
   return {
   success: true,
   message: "Transaction berhasil dibuat",

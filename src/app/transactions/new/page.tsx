@@ -1,8 +1,8 @@
 import { prisma } from "@/lib/prisma";
-import { createTransaction} from "@/actions/create-transaction";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { redirect } from "next/navigation";
+import TransactionForm from "@/components/TransactionForm";
 
 export default async function NewTransactionPage() {
   const categories =
@@ -22,86 +22,7 @@ export default async function NewTransactionPage() {
         Add Transaction
       </h1>
 
-      <form  action={createTransaction}  className="mt-4 flex flex-col gap-4">
-
-        <input
-          className="
-          border
-          rounded
-          p-2
-          bg-white
-          text-black
-          dark:bg-gray-800
-          dark:text-white
-          dark:border-gray-600
-            "            
-          type="number"
-          name="amount"
-          placeholder="Amount"
-
-        />
-
-        <select name="categoryId" 
-          className="
-          border
-          rounded
-          p-2
-          bg-white
-          text-black
-          dark:bg-gray-800
-          dark:text-white
-          dark:border-gray-600
-                ">
-          <option value="">
-            Pilih Kategori
-          </option>
-
-          {categories.map((category) => (
-            <option
-              key={category.id}
-              value={category.id}
-            >
-              {category.name}
-            </option>
-          ))}
-        </select>
-
-        <input
-        className="
-              border
-              rounded
-              p-2
-              bg-white
-              text-black
-              dark:bg-gray-800
-              dark:text-white
-              dark:border-gray-600
-          "
-          type="text"
-          name="description"
-          placeholder="Description"
-        />
-
-        <input
-          className="
-            border
-            rounded
-            p-2
-            bg-white
-            text-black
-            dark:bg-gray-800
-            dark:text-white
-            dark:border-gray-600
-"
-          type="date"
-          name="date"
-        />
-
-        <button type="submit">
-          Simpan
-        </button>
-
-      </form>
+      <TransactionForm categories={categories} />
     </div>
   );
 }

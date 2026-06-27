@@ -2,9 +2,9 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-
-import { transactionSchema }
-  from "@/validations/transaction-schema";
+import { transactionSchema } from "@/validations/transaction-schema";
+import { redirect }  from "next/navigation";
+import { revalidatePath,} from "next/cache";
 
 export async function createTransaction(
   formData: FormData
@@ -82,8 +82,6 @@ const transaction =
     },
   });
 
-  return {
-  success: true,
-  message: "Transaction berhasil dibuat",
-};
+  revalidatePath("/dashboard");
+  redirect("/dashboard");
 }

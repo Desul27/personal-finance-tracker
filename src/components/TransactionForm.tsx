@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import { createTransaction } from "@/actions/create-transaction";
-import { ArrowUpDown, Save, DollarSign,  FileText,  Tag,  Calendar,} from "lucide-react";
+import { ArrowUpDown, DollarSign,  FileText,  Tag,  Calendar,} from "lucide-react";
 
 
 type Category = {id: string;  name: string;  type: string;};

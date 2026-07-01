@@ -1,7 +1,7 @@
-import {
-  formatCurrency,
-  formatDate,
-} from "@/lib/format";
+import {formatCurrency, formatDate,} from "@/lib/format";
+import DeleteTransactionButton from "./DeleteTransactionButton";
+
+
 
 type TransactionCardProps = {
   transaction: {
@@ -20,6 +20,10 @@ type TransactionCardProps = {
 export default function TransactionCard({
   transaction,
 }: TransactionCardProps) {
+  const transactionType =
+  transaction.type === "INCOME"
+    ? "Pemasukan"
+    : "Pengeluaran";
   return (
     <div
       className="
@@ -27,6 +31,7 @@ export default function TransactionCard({
         rounded
         p-4
         mb-4
+        space-y-2
       "
     >
       <div className="flex justify-between">
@@ -58,7 +63,7 @@ export default function TransactionCard({
               }
             `}
           >
-            {transaction.type}
+            {transactionType}
           </span>
        
 
@@ -73,12 +78,23 @@ export default function TransactionCard({
           Number(transaction.amount)
         )}
       </p>
-
-      <p>
+      
+        <p>
         {formatDate(
           transaction.date
         )}
       </p>
+      <hr className="border-zinc-700" />
+        <div className=" mt-3 flex gap-2 pt-3">
+            <DeleteTransactionButton
+              transaction={{
+                id: transaction.id,
+                description: transaction.description,
+                amount: Number(transaction.amount),
+                type: transaction.type,
+              }}
+            />
+        </div>
     </div>
   );
 }

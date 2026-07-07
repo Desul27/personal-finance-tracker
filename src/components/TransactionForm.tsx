@@ -1,18 +1,40 @@
 "use client";
 import { useState } from "react";
-import { createTransaction } from "@/actions/create-transaction";
 import { ArrowUpDown, DollarSign,  FileText,  Tag,  Calendar,} from "lucide-react";
 
 
+type InitialTransaction = {
+  id: string;
+  amount: number;
+  description: string;
+  type: "INCOME" | "EXPENSE";
+  date: Date;
+  categoryId: string;
+};
+
 type Category = {id: string;  name: string;  type: string;};
+
+type TransactionFormProps = {
+  categories: Category[];
+  initialData?: InitialTransaction;
+};
 
 export default function TransactionForm({
   categories,
-}: {
-  categories: Category[];
-}) {
-  const [type, setType] =
-  useState("EXPENSE");
+  initialData,
+}: TransactionFormProps) {
+const [type, setType] = useState( initialData?.type ?? "EXPENSE");
+const [categoryId, setCategoryId] = useState(initialData?.categoryId ?? ""
+);
+const [description, setDescription] = useState(initialData?.description ?? ""
+);
+const [amount, setAmount] = useState(
+  initialData
+    ? initialData.amount.toString()
+    : ""
+);
+const [date, setDate] = useState(initialData?.date ? initialData.date.toISOString().split("T")[0]: ""
+);
 
   const filteredCategories =
   categories.filter(
@@ -20,17 +42,43 @@ export default function TransactionForm({
       category.type === type
   );
 
+  const handleSubmit = async (
+    e: React.FormEvent
+) => {
+    e.preventDefault();
+      const data = {
+    amount,
+    description,
+    // type,
+    date,
+    categoryId,
+  };  
+  // console.log(data);
+  const response = await fetch(
+  "/api/transactions",
+  {
+    method: "POST",
+
+    headers: {
+      "Content-Type":
+        "application/json",
+    },
+
+    body: JSON.stringify(data),
+  }
+);
+  console.log(response.status);
+};
+
+
   return (
     <div>
-       <form  action={createTransaction}  className="mt-4 flex flex-col gap-4">
-
-        {/* Amount */}
+       <form  onSubmit={handleSubmit}  className="mt-4 flex flex-col gap-4">
         <div>
-            <label className="block text-sm font-medium mb-2">
+            <label className="flex items-center gap-1 mb-2">
               <DollarSign
-                className="h-4 w-4 inline-block mr-2" 
-              />
-              Amount
+                className="h-4 w-4 " 
+              />Amount
             </label>
             <div className="relative">            
                  <input
@@ -47,6 +95,8 @@ export default function TransactionForm({
                       "            
                     type="number"
                     name="amount"
+                    value={amount}
+                    onChange={(e) => setAmount(e.target.value)}
                     placeholder="10000"
                     min="0"
                     required
@@ -62,7 +112,10 @@ export default function TransactionForm({
                       Type
                     </label>
                     <div className="relative">
-                        <select  value={type} onChange={(e) => setType(e.target.value)}className="border  rounded  p-2 w-full bg-white text-black   dark:bg-gray-800 dark:text-white    dark:border-gray-600"  required
+                        <select  
+                        value={type} onChange={(e) => setType(e.target.value as "INCOME" | "EXPENSE")}
+                        
+                        className="border  rounded  p-2 w-full bg-white text-black   dark:bg-gray-800 dark:text-white    dark:border-gray-600"  required
                     >
                       <option value="EXPENSE">
                         Expense
@@ -74,6 +127,7 @@ export default function TransactionForm({
                     </select>
                     </div>
                   </div>       
+
                   {/* Category */}
           <div>
            <label className="flex items-center gap-2 mb-2">
@@ -82,8 +136,7 @@ export default function TransactionForm({
             </label>
             <div className="relative">  
               <select
-            name="categoryId"
-            className="
+             className="
               border
               rounded
               p-2
@@ -95,6 +148,9 @@ export default function TransactionForm({
               dark:border-gray-600
             "
             required
+            name="categoryId"
+            value={categoryId}
+            onChange={(e) => setCategoryId(e.target.value)} 
           >
 
            <option value="">
@@ -136,6 +192,8 @@ export default function TransactionForm({
               "
               type="text"
               name="description"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}  
               placeholder="Description"
               required
             />
@@ -163,6 +221,8 @@ export default function TransactionForm({
             dark:border-gray-600"
           type="date"
           name="date"
+          value={date}
+          onChange={(e) => setDate(e.target.value)} 
           required
         />
       </div>

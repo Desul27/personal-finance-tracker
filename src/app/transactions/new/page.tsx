@@ -15,7 +15,7 @@ export default async function NewTransactionPage() {
   if (!session?.user?.id) {
     redirect("/login");
   }
-  
+  // const UserId = session.user.id;
   return (
     <div className="p-6">
       <h1 className="text-2xl font-bold">

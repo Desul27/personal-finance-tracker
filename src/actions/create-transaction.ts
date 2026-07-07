@@ -23,7 +23,7 @@ export async function createTransaction(
   const validatedData =
     transactionSchema.safeParse(
       data
-    );
+    ); //Validation dilakukan sebelum menyentuh database.
 
   if (!validatedData.success) {
     console.log(

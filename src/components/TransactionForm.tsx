@@ -1,6 +1,10 @@
 "use client";
 import { useState } from "react";
 import { ArrowUpDown, DollarSign,  FileText,  Tag,  Calendar,} from "lucide-react";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
+
+
 
 
 type InitialTransaction = {
@@ -35,6 +39,7 @@ const [amount, setAmount] = useState(
 );
 const [date, setDate] = useState(initialData?.date ? initialData.date.toISOString().split("T")[0]: ""
 );
+const router = useRouter();
 
   const filteredCategories =
   categories.filter(
@@ -67,7 +72,15 @@ const [date, setDate] = useState(initialData?.date ? initialData.date.toISOStrin
     body: JSON.stringify(data),
   }
 );
-  console.log(response.status);
+  const result = await response.json();
+  if(!response.ok){
+    toast.error(result.message);
+  } else {
+    
+    router.push("/dashboard");
+    router.refresh();
+    toast.success(result.message);
+  } 
 };
 
 
@@ -263,4 +276,8 @@ const [date, setDate] = useState(initialData?.date ? initialData.date.toISOStrin
       </form>
     </div>
   );
+}
+
+function push(arg0: string) {
+  throw new Error("Function not implemented.");
 }

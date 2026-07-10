@@ -4,9 +4,6 @@ import { ArrowUpDown, DollarSign,  FileText,  Tag,  Calendar,} from "lucide-reac
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 
-
-
-
 type InitialTransaction = {
   id: string;
   amount: number;
@@ -28,17 +25,22 @@ export default function TransactionForm({
   initialData,
 }: TransactionFormProps) {
 const [type, setType] = useState( initialData?.type ?? "EXPENSE");
+
 const [categoryId, setCategoryId] = useState(initialData?.categoryId ?? ""
 );
+
 const [description, setDescription] = useState(initialData?.description ?? ""
 );
+
 const [amount, setAmount] = useState(
   initialData
     ? initialData.amount.toString()
     : ""
 );
+
 const [date, setDate] = useState(initialData?.date ? initialData.date.toISOString().split("T")[0]: ""
 );
+
 const router = useRouter();
 
   const filteredCategories =
@@ -47,10 +49,13 @@ const router = useRouter();
       category.type === type
   );
 
+
+
   const handleSubmit = async (
     e: React.FormEvent
 ) => {
     e.preventDefault();
+
       const data = {
     amount,
     description,
@@ -58,11 +63,22 @@ const router = useRouter();
     date,
     categoryId,
   };  
+  
+  const url = initialData
+  ? `/api/transactions/${initialData.id}`
+  : "/api/transactions";
+
+const method = initialData
+  ? "PUT"
+  : "POST";
+
+  console.log(url);
+  console.log(method);
   // console.log(data);
-  const response = await fetch(
-  "/api/transactions",
+
+  const response = await fetch(url,
   {
-    method: "POST",
+    method: method,
 
     headers: {
       "Content-Type":
@@ -72,6 +88,8 @@ const router = useRouter();
     body: JSON.stringify(data),
   }
 );
+
+
   const result = await response.json();
   if(!response.ok){
     toast.error(result.message);

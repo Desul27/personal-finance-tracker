@@ -1,5 +1,8 @@
 import {formatCurrency, formatDate,} from "@/lib/format";
 import DeleteTransactionButton from "./DeleteTransactionButton";
+import Link from "next/link";
+import { Pencil, SquarePen } from "lucide-react";
+import { Button } from "./ui/button";
 
 
 
@@ -86,6 +89,19 @@ export default function TransactionCard({
       </p>
       <hr className="border-zinc-700" />
         <div className=" mt-3 flex gap-2 pt-3">
+
+            <Button
+              asChild
+              variant="outline"
+              size="icon"
+           >
+              <Link
+                 href={`/transactions/${transaction.id}/edit`}
+              >
+                  <SquarePen className="h-4 w-4"/>
+              </Link>
+           </Button>
+
             <DeleteTransactionButton
               transaction={{
                 id: transaction.id,
@@ -94,6 +110,7 @@ export default function TransactionCard({
                 type: transaction.type,
               }}
             />
+
         </div>
     </div>
   );

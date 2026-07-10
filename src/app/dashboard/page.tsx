@@ -7,6 +7,7 @@ import { formatCurrency, formatDate, } from "@/lib/format";
 import SummaryCard from "@/components/SummaryCard";
 import TransactionCard from "@/components/TransactionCard";
 import ThemeToggle  from "@/components/ThemeToggle";
+import { prisma } from "@/lib/prisma";
 
 export default async function DashboardPage() {
   const session = await getServerSession(authOptions);
@@ -149,7 +150,10 @@ export default async function DashboardPage() {
                 (transaction) => (
                   <TransactionCard
                     key={transaction.id}
-                    transaction={transaction}
+                    transaction={{
+                      ...transaction,
+                      amount: Number(transaction.amount),
+                    }}
                   />
                 )
               )

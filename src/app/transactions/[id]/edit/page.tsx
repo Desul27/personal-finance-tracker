@@ -3,7 +3,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { redirect} from "next/navigation";
 import TransactionForm from "@/components/TransactionForm";
-
+export const dynamic = "force-dynamic"; //->Jangan prerender halaman ini saat build. Render halaman ini setiap ada request.
 type EditTransactionPageProps = {
   params: Promise<{
     id: string;
@@ -41,7 +41,7 @@ if (!session?.user?.id) {
 const initialData = {
   id: transaction.id,
   amount: Number(transaction.amount),
-  description: transaction.description,
+  description: transaction.description || "",
   type: transaction.type,
   date: transaction.date,
   categoryId: transaction.categoryId,

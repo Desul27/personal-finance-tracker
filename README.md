@@ -4,6 +4,17 @@ Next.js | TypeScript | Prisma | PostgreSQL | Tailwind CSS | NextAuth
 
 > Modern Full-Stack Personal Finance Tracker built with Next.js App Router, Prisma, PostgreSQL, and NextAuth.
 
+## 🔗 Live Demo
+
+🌍 **Website**
+https://.....
+
+📂 **Repository**
+https://github.com/Desul27/personal-finance-tracker
+
+## Screenshot
+
+
 
 ## ✨ Features
 

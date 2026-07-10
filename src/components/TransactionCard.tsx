@@ -11,7 +11,7 @@ type TransactionCardProps = {
     id: string;
     amount: number;
     description: string | null;
-    type: string;
+    type: "INCOME" | "EXPENSE";
     date: Date;
 
     category: {
@@ -105,7 +105,7 @@ export default function TransactionCard({
             <DeleteTransactionButton
               transaction={{
                 id: transaction.id,
-                description: transaction.description,
+                description: transaction.description || "",
                 amount: Number(transaction.amount),
                 type: transaction.type,
               }}

@@ -193,6 +193,7 @@ const method = initialData
                 <option
                   key={category.id}
                   value={category.id}
+                  
                 >
                   {category.name}
                 </option>

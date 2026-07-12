@@ -3,12 +3,9 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { transactionSchema } from "@/validations/transaction-schema";
-// import { redirect }  from "next/navigation";
-// import { revalidatePath,} from "next/cache";
 
 export async function POST(request: Request) {
 
-  
   const data = await request.json();  //ambil data dari API request body
   const validatedData = transactionSchema.safeParse(data); //Validation dilakukan sebelum menyentuh database.
 

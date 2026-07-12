@@ -1,10 +1,41 @@
 "use client";
 
-import { registerUser } from "@/actions/register";
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 export default function RegisterPage() {
+  const router = useRouter();
+
   const handleRegister = async (formData: FormData) => {
-    await registerUser(formData);
+    const email = formData.get("email") as string;
+    const password = formData.get("password") as string;
+
+    const response = await fetch("/api/register", {
+      method: "POST",
+      body: formData,
+    });
+
+    const result = await response.json();
+
+    if (!result.success) {
+      toast.error(result.message);
+      return;
+    }
+
+    const loginResult = await signIn("credentials", {
+      email,
+      password,
+      redirect: false,
+    });
+    if (!loginResult?.ok) {
+      toast.error("Login gagal setelah registrasi");
+      return;
+    }
+
+    router.push("/dashboard");  
+    router.refresh(); // Refresh the page to update the UI after login
+    toast.success("🎉 Registrasi berhasil. Selamat datang!");
   };
 
   return (

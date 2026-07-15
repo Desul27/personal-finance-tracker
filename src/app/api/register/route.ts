@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server"; //diperlukan untuk mengirimkan response dari API route
 import bcrypt from "bcrypt";
-// import { signIn } from "next-auth/react";
 
 import { prisma } from "@/lib/prisma";
 import { registerSchema } from "@/validations/auth-schema";
@@ -8,7 +7,6 @@ import { registerSchema } from "@/validations/auth-schema";
 export async function POST(request: Request) {
   try {
     const formData = await request.formData();//memanggil data dari request body yang dikirimkan dari form
-
     const data = {
       name: formData.get("name"),
       email: formData.get("email"),

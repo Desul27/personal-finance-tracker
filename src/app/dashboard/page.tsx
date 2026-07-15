@@ -63,7 +63,6 @@ export default async function DashboardPage() {
 
   const balance = totalIncome - totalExpense;
 
-
   return (
     <main className="p-6">
           <header className="flex justify-between items-center mb-6">

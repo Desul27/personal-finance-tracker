@@ -1,10 +1,27 @@
+"use client";
+
+import { useState } from "react";
 import Link from "next/link";
 import {
   Menu,
   Wallet,
 } from "lucide-react";
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
 
 export default function Navbar() {
+  const [open, setOpen] = useState(false);
+  const closeMenu = () => {
+    
+  setOpen(false);
+};
+  
   return (
     <header
       className="
@@ -64,6 +81,7 @@ export default function Navbar() {
         >
           <Link
             href="#features"
+             
             className="
               text-sm
               font-medium
@@ -77,6 +95,7 @@ export default function Navbar() {
 
           <Link
             href="#why-us"
+             
             className="
               text-sm
               font-medium
@@ -90,6 +109,7 @@ export default function Navbar() {
 
           <Link
             href="/login"
+             
             className="
               text-sm
               font-medium
@@ -103,6 +123,7 @@ export default function Navbar() {
 
           <Link
             href="/register"
+             
             className="
               rounded-lg
               bg-blue-600
@@ -125,17 +146,131 @@ export default function Navbar() {
 
         {/* Mobile Menu */}
 
-        <button
-          className="
-            rounded-lg
-            p-2
-            transition-colors
-            hover:bg-muted
-            lg:hidden
-          "
-        >
-          <Menu className="h-6 w-6" />
-        </button>
+          <Sheet
+            open={open}
+            onOpenChange={setOpen}
+            >
+            <SheetTrigger asChild>
+              <button
+                className="
+                  rounded-lg
+                  p-2
+                  transition-colors
+                  hover:bg-muted
+                  lg:hidden
+                "
+                aria-label="Open navigation menu"
+              >
+                <Menu className="h-6 w-6" />
+              </button>
+            </SheetTrigger>
+
+                <SheetContent
+                  side="right"
+                  className="w-75 p-0"
+                >
+<SheetHeader
+  className="
+    border-b
+    px-6
+    py-5
+  "
+>
+  <SheetTitle
+    className="text-left"
+  >
+    Navigation
+  </SheetTitle>
+
+  <SheetDescription
+    className="text-left"
+  >
+    Navigate to different sections of the application.
+  </SheetDescription>
+</SheetHeader>
+
+                  <nav
+                    className="
+                      flex
+                      flex-col
+                      px-6
+                      py-6
+                    "
+                  >
+                    <Link
+                      href="#features"
+                      onClick={closeMenu}
+                      className="
+                        rounded-md
+                        px-3
+                        py-3
+                        text-base
+                        font-medium
+                        transition-colors
+                        hover:bg-muted
+                        hover:text-emerald-500
+                      "
+                    >
+                      Features
+                    </Link>
+
+                    <Link
+                      href="#why-us"
+                      onClick={closeMenu}
+                      className="
+                        rounded-md
+                        px-3
+                        py-3
+                        text-base
+                        font-medium
+                        transition-colors
+                        hover:bg-muted
+                        hover:text-emerald-500
+                      "
+                    >
+                      Why Us
+                    </Link>
+
+                    <Link
+                      href="/login"
+                      onClick={closeMenu}
+                      className="
+                        rounded-md
+                        px-3
+                        py-3
+                        text-base
+                        font-medium
+                        transition-colors
+                        hover:bg-muted
+                        hover:text-emerald-500
+                      "
+                    >
+                      Login
+                    </Link>
+
+                    <div className="my-6 border-t" />
+
+                    <Link
+                      href="/register"
+                      onClick={closeMenu}
+                      className="
+                        rounded-lg
+                        bg-emerald-600
+                        px-5
+                        py-3
+                        text-center
+                        font-semibold
+                        text-white
+                        transition-all
+                        duration-300
+                        hover:bg-emerald-700
+                      "
+                    >
+                      Get Started
+                    </Link>
+                  </nav>
+                </SheetContent>
+          </Sheet>
       </nav>
     </header>
   );

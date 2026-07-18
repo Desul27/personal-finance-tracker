@@ -14,6 +14,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import ThemeToggle from "@/components/ThemeToggle";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
@@ -70,79 +71,80 @@ export default function Navbar() {
         </Link>
 
         {/* Desktop Menu */}
-
         <div
           className="
             hidden
             items-center
-            gap-8
             lg:flex
           "
         >
-          <Link
-            href="#features"
-             
-            className="
-              text-sm
-              font-medium
-              text-muted-foreground
-              transition-colors
-              hover:text-foreground
-            "
-          >
-            Features
-          </Link>
+          <div className="flex items-center gap-8">
+            <Link
+              href="#features"
+              className="
+                text-sm
+                font-medium
+                text-muted-foreground
+                transition-colors
+                hover:text-foreground
+              "
+            >
+              Features
+            </Link>
 
-          <Link
-            href="#why-us"
-             
-            className="
-              text-sm
-              font-medium
-              text-muted-foreground
-              transition-colors
-              hover:text-foreground
-            "
-          >
-            Why Us
-          </Link>
+            <Link
+              href="#why-us"
+              className="
+                text-sm
+                font-medium
+                text-muted-foreground
+                transition-colors
+                hover:text-foreground
+              "
+            >
+              Why Us
+            </Link>
+          </div>
 
-          <Link
-            href="/login"
-             
-            className="
-              text-sm
-              font-medium
-              text-muted-foreground
-              transition-colors
-              hover:text-foreground
-            "
-          >
-            Login
-          </Link>
+          <div className="ml-10 flex items-center gap-3">
+            <Link
+              href="/login"
+              className="
+                text-sm
+                font-medium
+                text-muted-foreground
+                transition-colors
+                hover:text-foreground
+              "
+            >
+              Login
+            </Link>
 
-          <Link
-            href="/register"
-             
-            className="
-              rounded-lg
-              bg-blue-600
-              px-5
-              py-2
-              text-sm
-              font-semibold
-              text-white
-              transition-all
-              duration-300
-              hover:scale-105
-              hover:bg-blue-700
-              dark:bg-emerald-600
-              dark:hover:bg-emerald-700
-            "
-          >
-            Get Started
-          </Link>
+            <ThemeToggle />
+
+            <Link
+              href="/register"
+              className="
+                rounded-lg
+                bg-blue-600
+                px-5
+                py-2
+                text-sm
+                font-semibold
+                text-white
+                transition-all
+                duration-300
+                hover:scale-105
+                hover:bg-blue-700
+                dark:bg-emerald-600
+                dark:hover:bg-emerald-700
+              "
+            >
+              Get Started
+            </Link>
+          </div>
         </div>
+
 
         {/* Mobile Menu */}
 
@@ -169,25 +171,25 @@ export default function Navbar() {
                   side="right"
                   className="w-75 p-0"
                 >
-<SheetHeader
-  className="
-    border-b
-    px-6
-    py-5
-  "
->
-  <SheetTitle
-    className="text-left"
-  >
-    Navigation
-  </SheetTitle>
+                  <SheetHeader
+                    className="
+                      border-b
+                      px-6
+                      py-5
+                    "
+                  >
+                    <SheetTitle
+                      className="text-left"
+                    >
+                      Navigation
+                    </SheetTitle>
 
-  <SheetDescription
-    className="text-left"
-  >
-    Navigate to different sections of the application.
-  </SheetDescription>
-</SheetHeader>
+                    <SheetDescription
+                      className="text-left"
+                    >
+                      Navigate to different sections of the application.
+                    </SheetDescription>
+                  </SheetHeader>
 
                   <nav
                     className="
@@ -248,6 +250,30 @@ export default function Navbar() {
                       Login
                     </Link>
 
+                    <div className="my-6 border-t" />
+
+                    <div
+                    className="
+                      flex
+                      items-center
+                      justify-between
+                      px-3
+                      py-3
+                    "
+                    >
+                   <span
+                     className="
+                       text-sm
+                       font-medium
+                       text-muted-foreground
+                     "
+                   >
+                     Theme
+                   </span>
+
+                      <ThemeToggle />
+                    </div>
+                      
                     <div className="my-6 border-t" />
 
                     <Link

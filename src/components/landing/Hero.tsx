@@ -11,7 +11,7 @@ import {
   Plus,
 } from "lucide-react";
 
-import Navbar from "./Navbar";
+// import Navbar from "./Navbar";
 
   const techStack = [
   "Next.js",

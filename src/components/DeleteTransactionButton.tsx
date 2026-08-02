@@ -13,7 +13,6 @@ import { Button } from "./ui/button";
 import { Trash2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import { Transaction } from "@prisma/client";
 
 type DeleteTransaction = {
   id: string;

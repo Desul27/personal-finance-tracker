@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { authOptions } from "@/lib/auth";
 import { getServerSession } from "next-auth";
-import { transactionSchema } from "@/validations/transaction-schema";
+import { transactionSchema } from "@/lib/validations/transaction-schema";
 
 export async function DELETE(
   request: Request,

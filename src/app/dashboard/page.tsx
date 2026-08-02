@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 import { authOptions } from "@/lib/auth";
 import LogoutButton from "@/components/logout-button";
 import Link from "next/link";
-import { formatCurrency, formatDate, } from "@/lib/format";
+import { formatCurrency  } from "@/lib/format";
 import SummaryCard from "@/components/SummaryCard";
 import TransactionCard from "@/components/TransactionCard";
 import ThemeToggle  from "@/components/ThemeToggle";
@@ -11,9 +11,21 @@ import { prisma } from "@/lib/prisma";
 
 export default async function DashboardPage() {
   const session = await getServerSession(authOptions);
+  
   if (!session) {
     redirect("/login");
   }
+  
+      const user = await prisma.user.findUnique({
+        where: {
+          id: session.user.id,
+        },
+      
+        select: {
+          name: true,
+        },
+      });
+
 
   const transactions =
     await prisma.transaction.findMany({
@@ -29,6 +41,7 @@ export default async function DashboardPage() {
         date: "desc",
       },
     });
+
   const totalIncome =
     transactions
       .filter(
@@ -72,7 +85,7 @@ export default async function DashboardPage() {
               </h1>
 
               <p className="text-gray-500">
-                Welcome back, {session.user.name } 🔥
+                Welcome back, {user?.name } 🔥
               </p>
             </div>
 

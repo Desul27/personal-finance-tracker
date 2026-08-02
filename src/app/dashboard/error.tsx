@@ -1,10 +1,6 @@
 "use client";
 
-export default function Error({
-  error,
-}: {
-  error: Error;
-}) {
+export default function Error() {
   return (
     <div>
       <h2>

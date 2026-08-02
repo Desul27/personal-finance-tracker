@@ -2,7 +2,7 @@ import { NextResponse } from "next/server"; //diperlukan untuk mengirimkan respo
 import bcrypt from "bcrypt";
 
 import { prisma } from "@/lib/prisma";
-import { registerSchema } from "@/validations/auth-schema";
+import { registerSchema } from "@/lib/validations/auth-schema";
 
 export async function POST(request: Request) {
   try {

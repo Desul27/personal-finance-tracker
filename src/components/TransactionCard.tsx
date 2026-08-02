@@ -1,7 +1,7 @@
 import {formatCurrency, formatDate,} from "@/lib/format";
 import DeleteTransactionButton from "./DeleteTransactionButton";
 import Link from "next/link";
-import { Pencil, SquarePen } from "lucide-react";
+import {SquarePen } from "lucide-react";
 import { Button } from "./ui/button";
 
 

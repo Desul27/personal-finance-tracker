@@ -1,4 +1,4 @@
-import NextAuth, {
+import {
   DefaultSession,
 } from "next-auth";
 

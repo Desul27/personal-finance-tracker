@@ -9,6 +9,8 @@ import {
   updatePreferencesSchema,
   type UpdatePreferencesInput,
 } from "@/lib/validations/preferences";
+import { currencies } from "@/lib/constants/currencies";
+import { timezones } from "@/lib/constants/timezones";
 
 import {
   Card,
@@ -123,27 +125,18 @@ export default function PreferencesCard({
                   <SelectTrigger>
                     <SelectValue />
                   </SelectTrigger>
-
                   <SelectContent>
-                    <SelectItem value="IDR">
-                      🇮🇩 Indonesian
-                      Rupiah (IDR)
-                    </SelectItem>
+                    {currencies.map((currency) => (
+                      <SelectItem
+                        key={currency.value}
+                        value={currency.value}
+                      >
+                        {currency.label}
+                      </SelectItem>
+                    ))}
+                </SelectContent>
 
-                    <SelectItem value="USD">
-                      🇺🇸 US Dollar
-                      (USD)
-                    </SelectItem>
-
-                    <SelectItem value="EUR">
-                      🇪🇺 Euro (EUR)
-                    </SelectItem>
-
-                    <SelectItem value="JPY">
-                      🇯🇵 Japanese Yen
-                      (JPY)
-                    </SelectItem>
-                  </SelectContent>
+                  
                 </Select>
               )}
             />
@@ -178,23 +171,18 @@ export default function PreferencesCard({
                     <SelectValue />
                   </SelectTrigger>
 
-                  <SelectContent>
-                    <SelectItem value="Asia/Jakarta">
-                      Asia/Jakarta
-                    </SelectItem>
+                <SelectContent>
+                {timezones.map((timezone) => (
+                  <SelectItem
+                    key={timezone.value}
+                    value={timezone.value}
+                  >
+                    {timezone.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
 
-                    <SelectItem value="Asia/Makassar">
-                      Asia/Makassar
-                    </SelectItem>
 
-                    <SelectItem value="Asia/Jayapura">
-                      Asia/Jayapura
-                    </SelectItem>
-
-                    <SelectItem value="UTC">
-                      UTC
-                    </SelectItem>
-                  </SelectContent>
                 </Select>
               )}
             />

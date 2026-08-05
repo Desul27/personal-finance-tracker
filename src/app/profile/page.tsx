@@ -1,13 +1,13 @@
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
-
+import Link from "next/link";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-
+import { ArrowLeft } from "lucide-react";
 import PersonalInformationCard from "@/components/profile/PersonalInformationCard";
+import DeleteAccountCard from "@/components/profile/DeleteAccountCard";
 import PreferencesCard from "@/components/profile/PreferencesCard";
 import ChangePasswordCard from "@/components/profile/ChangePasswordCard";
-// import DeleteAccountCard from "@/components/profile/DeleteAccountCard";
 
 export default async function ProfilePage() {
   const session = await getServerSession(authOptions);
@@ -34,18 +34,43 @@ export default async function ProfilePage() {
     redirect("/login");
   }
 
-  // PersonalInformationCard's props typing differs from the runtime usage here.
-  // Cast to any to bypass the mismatch while keeping runtime behavior intact.
-  // const PIC = PersonalInformationCard as any;
 
   return (
     <main className="container mx-auto max-w-5xl px-6 py-10">
       <div className="mb-10">
-        <h1 className="text-3xl font-bold">
-          Account Settings
-        </h1>
+<header className="mb-6">
 
-        <p className="mt-2 text-muted-foreground">
+<Link
+    href="/dashboard"
+    className="
+        inline-flex
+        items-center
+        gap-2
+        text-sm
+        text-muted-foreground
+        hover:underline
+    "
+>
+    <ArrowLeft
+        className="h-4 w-4"
+    />
+
+    Dashboard
+</Link>
+
+  <h1
+    className="
+      text-3xl
+      font-bold
+      mt-2
+    "
+  >
+    Profile
+  </h1>
+
+</header>
+
+        <p className="mt-1 text-muted-foreground">
           Manage your personal information, preferences and account security.
         </p>
       </div>
@@ -63,9 +88,7 @@ export default async function ProfilePage() {
           timezone={user.timezone}
         />
 
-        
-
-        {/* <DeleteAccountCard /> */}
+        <DeleteAccountCard />
       </div>
     </main>
   );

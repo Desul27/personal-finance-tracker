@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { authOptions } from "@/lib/auth";
 import LogoutButton from "@/components/logout-button";
 import Link from "next/link";
+import { UserCircle2 } from "lucide-react";
 import { formatCurrency  } from "@/lib/format";
 import SummaryCard from "@/components/SummaryCard";
 import TransactionCard from "@/components/TransactionCard";
@@ -85,14 +86,37 @@ export default async function DashboardPage() {
               </h1>
 
               <p className="text-gray-500">
-                Welcome back, {user?.name } 🔥
+                Welcome back,  🔥
               </p>
             </div>
 
             <div className="flex gap-2 items-center">
+              <Link
+                  href="/profile"
+                  className="
+                      flex
+                      items-center
+                      gap-2
+                      rounded-md
+                      border
+                      px-3
+                      py-2
+                      hover:bg-accent
+                      transition-colors
+                  "
+              >
+                  <UserCircle2
+                      className="h-4 w-4"
+                  />
+                  {user?.name }
+              </Link>
+
               <ThemeToggle />
+
               <LogoutButton />
+
             </div>
+
           </header>
 
           <div className="mb-6">

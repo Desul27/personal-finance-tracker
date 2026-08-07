@@ -3,6 +3,7 @@
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import RegisterSubmitButton from "@/components/RegisterSubmitButton";
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -75,16 +76,10 @@ export default function RegisterPage() {
             />
           </div>
 
-          <button
-          
-            type="submit"
-            className="w-full rounded border p-2"
-          >
-            
-            Register
-          </button>
+          <RegisterSubmitButton />
         </form>
       </div>
     </main>
   );
 }
+        

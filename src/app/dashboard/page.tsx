@@ -86,7 +86,7 @@ export default async function DashboardPage() {
               </h1>
 
               <p className="text-gray-500">
-                Welcome back,  🔥
+                Welcome back  🔥
               </p>
             </div>
 

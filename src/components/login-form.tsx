@@ -3,15 +3,19 @@ import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
 import { useState } from "react";
 
+
 export default function LoginForm() {
 const router = useRouter();
-
 const [error, setError] = useState("");
+const [isLoading, setIsLoading] =
+  useState(false);
 
   async function handleSubmit(
     event: React.FormEvent<HTMLFormElement>
   ) {
     event.preventDefault();
+    setIsLoading(true);
+    setError("");
 
     const formData = new FormData(
       event.currentTarget
@@ -29,14 +33,19 @@ const [error, setError] = useState("");
       password,
       redirect: false,
     });
+    
+  
+
     if (result?.error) {
       setError(
         "Email atau password salah"
        );
-     return;
+         setIsLoading(false);
+         return;
         }
 
     if (result?.ok) {
+      setIsLoading(false);
       router.push("/dashboard");
     }
 
@@ -70,9 +79,22 @@ const [error, setError] = useState("");
       )}  
       <button
         type="submit"
-        className="w-full rounded border p-2"
-      >
-        Login
+        disabled={isLoading}
+        className="
+        w-full
+        rounded
+        border
+        p-2
+
+        disabled:opacity-50
+        disabled:cursor-not-allowed
+    " >
+
+        {isLoading
+          ? "Loading..."
+          : "Login"}
+
+
       </button>
     </form>
   );

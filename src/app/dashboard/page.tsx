@@ -1,14 +1,26 @@
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import { authOptions } from "@/lib/auth";
+import { prisma } from "@/lib/prisma";
+import {
+  getDashboardSummary,
+  getMonthlyChart,
+  getExpenseByCategory,
+} from "@/lib/dashboard";
+import { formatCurrency  } from "@/lib/format";
+
+
 import LogoutButton from "@/components/logout-button";
 import Link from "next/link";
 import { UserCircle2 } from "lucide-react";
-import { formatCurrency  } from "@/lib/format";
-import SummaryCard from "@/components/SummaryCard";
+
+import MonthlyChart from "@/components/dashboard/MonthlyChart";
+import SummaryCard from "@/components/dashboard/SummaryCard";
 import TransactionCard from "@/components/TransactionCard";
+import ExpensePieChart from "@/components/dashboard/ExpensePieChart";
 import ThemeToggle  from "@/components/ThemeToggle";
-import { prisma } from "@/lib/prisma";
+
+
 
 export default async function DashboardPage() {
   const session = await getServerSession(authOptions);
@@ -27,6 +39,20 @@ export default async function DashboardPage() {
         },
       });
 
+      const summary =
+      await getDashboardSummary(
+          session.user.id
+      );
+
+      const monthlyChart =
+      await getMonthlyChart(
+          session.user.id
+      );
+
+      const expenseByCategory =
+      await getExpenseByCategory(
+          session.user.id
+      );
 
   const transactions =
     await prisma.transaction.findMany({
@@ -41,41 +67,9 @@ export default async function DashboardPage() {
       orderBy: {
         date: "desc",
       },
+      take: 5,
     });
 
-  const totalIncome =
-    transactions
-      .filter(
-        (transaction) =>
-          transaction.type ===
-          "INCOME"
-      )
-      .reduce(
-        (sum, transaction) =>
-          sum +
-          Number(
-            transaction.amount
-          ),
-        0
-      );
-
-  const totalExpense =
-    transactions
-      .filter(
-        (transaction) =>
-          transaction.type ===
-          "EXPENSE"
-      )
-      .reduce(
-        (sum, transaction) =>
-          sum +
-          Number(
-            transaction.amount
-          ),
-        0
-      );
-
-  const balance = totalIncome - totalExpense;
 
   return (
     <main className="p-6">
@@ -134,30 +128,34 @@ export default async function DashboardPage() {
           </div>
       
 
-        <section className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <section className="grid  grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
 
-            <SummaryCard
-              title="Total Income"
-              amount={formatCurrency(
-                totalIncome
-              )}
+          <SummaryCard
+            title="Total Income"
+            value={formatCurrency(summary.totalIncome)}
+          />
+
+          <SummaryCard
+            title="Total Expense"
+            value={formatCurrency(summary.totalExpense)}
+          />
+
+          <SummaryCard
+            title="Balance"
+            value={formatCurrency(summary.balance)}
+          />
+          <SummaryCard
+            title="Transactions"
+            value={summary.totalTransactions.toString()}
+          />
+         </section>
+             <MonthlyChart
+              data={monthlyChart}
             />
 
-            <SummaryCard
-              title="Total Expense"
-              amount={formatCurrency(
-                totalExpense
-              )}
+            <ExpensePieChart
+              data={expenseByCategory}
             />
-
-            <SummaryCard
-              title="Balance"
-              amount={formatCurrency(
-                balance
-              )}
-            />
-
-          </section>
 
               <h2 className="text-xl font-bold mt-6">
               Recent Transactions

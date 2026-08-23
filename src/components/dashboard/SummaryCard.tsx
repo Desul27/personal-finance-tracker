@@ -1,18 +1,18 @@
 type SummaryCardProps = {
   title: string;
-  amount: string;
+  value: string;
 };
 
 export default function SummaryCard({
   title,
-  amount,
+  value,
 }: SummaryCardProps) {
   return (
-    <div className="border rounded p-4">
-      <h2>{title}</h2>
+    <div>
+      <h3>{title}</h3>
 
       <p className="text-2xl font-bold">
-        {amount}
+        {value}
       </p>
     </div>
   );

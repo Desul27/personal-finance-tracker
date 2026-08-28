@@ -3,21 +3,11 @@ import DeleteTransactionButton from "./DeleteTransactionButton";
 import Link from "next/link";
 import {SquarePen } from "lucide-react";
 import { Button } from "./ui/button";
-
+import type { TransactionWithCategory } from "@/types/transaction";
 
 
 type TransactionCardProps = {
-  transaction: {
-    id: string;
-    amount: number;
-    description: string | null;
-    type: "INCOME" | "EXPENSE";
-    date: Date;
-
-    category: {
-      name: string;
-    };
-  };
+  transaction: TransactionWithCategory;
 };
 
 export default function TransactionCard({

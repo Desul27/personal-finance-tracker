@@ -182,13 +182,10 @@ export default async function DashboardPage() {
             ) : (
               transactions.map(
                 (transaction) => (
-                  <TransactionCard
-                    key={transaction.id}
-                    transaction={{
-                      ...transaction,
-                      amount: Number(transaction.amount),
-                    }}
-                  />
+                <TransactionCard
+                  key={transaction.id}
+                  transaction={transaction}
+                />
                 )
               )
             )}

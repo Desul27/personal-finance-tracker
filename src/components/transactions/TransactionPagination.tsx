@@ -5,12 +5,26 @@ import { Button } from "@/components/ui/button";
 type TransactionPaginationProps = {
   currentPage: number;
   totalPages: number;
+  search?: string;
 }; //tipe dari props yang diterima oleh komponen TransactionPagination. currentPage adalah halaman saat ini, dan totalPages adalah jumlah total halaman yang tersedia. 
 
 export default function TransactionPagination({
   currentPage,
   totalPages,
+  search
 }: TransactionPaginationProps) {
+
+  const createPageUrl = (page: number) => {
+  const params = new URLSearchParams();
+
+  params.set("page", page.toString());
+
+  if (search) {
+    params.set("search", search);
+  }
+
+  return `/transactions?${params.toString()}`;
+};
 
   if (totalPages <= 1) {
     return null;//jangan render apapun
@@ -21,6 +35,7 @@ export default function TransactionPagination({
     { length: totalPages },
     (_, index) => index + 1//callback function (_, index)yang digunakan untuk mengisi setiap elemen dalam array baru dengan nomor halaman yang sesuai. index adalah indeks dari elemen saat ini dalam array, dan index + 1 memberikan nomor halaman yang sesuai
   );//membuat array pages yang berisi nomor halaman dari 1 hingga totalPages. Array.from digunakan untuk membuat array baru berdasarkan panjang totalPages, dan setiap elemen diisi dengan nomor halaman yang sesuai (index + 1).
+  
 
   return (
     <div className="mt-6 flex items-center justify-center gap-2">
@@ -30,7 +45,7 @@ export default function TransactionPagination({
         disabled={currentPage === 1}
       >
         <Link
-          href={`/transactions?page=${currentPage - 1}`}
+          href={createPageUrl(currentPage - 1)}
         >
           Previous
         </Link>
@@ -47,7 +62,7 @@ export default function TransactionPagination({
           }
         >
           <Link
-            href={`/transactions?page=${page}`}
+            href={createPageUrl(page)}
           >
             {page}
           </Link>
@@ -60,7 +75,7 @@ export default function TransactionPagination({
         disabled={currentPage === totalPages}
       >
         <Link
-          href={`/transactions?page=${currentPage + 1}`}
+          href={createPageUrl(currentPage + 1)}
         >
           Next
         </Link>

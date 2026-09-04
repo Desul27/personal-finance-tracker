@@ -16,13 +16,26 @@ import { UserCircle2 } from "lucide-react";
 
 import MonthlyChart from "@/components/dashboard/MonthlyChart";
 import SummaryCard from "@/components/dashboard/SummaryCard";
-import TransactionCard from "@/components/TransactionCard";
+
 import ExpensePieChart from "@/components/dashboard/ExpensePieChart";
 import ThemeToggle  from "@/components/ThemeToggle";
+import TransactionPagination from "@/components/transactions/TransactionPagination";  
+import SearchFilter from "@/components/transactions/SearchFilter"; 
+import TransactionList from "@/components/transactions/TransactionList";
 
+type TransactionsPageProps = {
+  searchParams: Promise<{
+    page?: string;
+    search?: string;
+    
+  }>;
+};
 
-
-export default async function DashboardPage() {
+export default async function DashboardPage(
+  {
+  searchParams,
+}: TransactionsPageProps
+) {
   const session = await getServerSession(authOptions);
   
   if (!session) {
@@ -54,6 +67,12 @@ export default async function DashboardPage() {
           session.user.id
       );
 
+  const totalTransactions = await prisma.transaction.count({
+    where: {
+      userId: session.user.id,
+    },
+  });
+
   const transactions =
     await prisma.transaction.findMany({
       where: {
@@ -70,6 +89,12 @@ export default async function DashboardPage() {
       take: 5,
     });
 
+  const currentPage = 1;
+  const totalPages = Math.max(1, Math.ceil(totalTransactions / 5));
+   const params = await searchParams;
+
+  // const page = Number(params.page) || 1;
+  const search = params.search; 
 
   return (
     <main className="p-6">
@@ -149,6 +174,7 @@ export default async function DashboardPage() {
             value={summary.totalTransactions.toString()}
           />
          </section>
+
              <MonthlyChart
               data={monthlyChart}
             />
@@ -157,39 +183,27 @@ export default async function DashboardPage() {
               data={expenseByCategory}
             />
 
-              <h2 className="text-xl font-bold mt-6">
+              <h2 className="text-xl font-bold mt-6 mb-1.5">
               Recent Transactions
              </h2>
-          <section className="mt-1">
-            {transactions.length === 0 ? (
-              <div
-                className="
-                  border
-                  rounded
-                  p-8
-                  text-center
-                "
-              >
-                <h3 className="font-bold">
-                  Belum ada transaksi
-                </h3>
-            
-                <p>
-                  Tambahkan transaksi
-                  pertama Anda.
-                </p>
-              </div>
-            ) : (
-              transactions.map(
-                (transaction) => (
-                <TransactionCard
-                  key={transaction.id}
-                  transaction={transaction}
+
+             <section className="space-y-6">  
+
+              <SearchFilter
+              search={search}
                 />
-                )
-              )
-            )}
-      </section>
+
+             <TransactionList
+             transactions={transactions}
+              />
+
+              <TransactionPagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                search={search}
+              />
+              </section>
+
  </main>
   );
 }

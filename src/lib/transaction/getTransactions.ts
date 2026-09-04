@@ -1,19 +1,46 @@
-import { prisma } from "@/lib/prisma"; 
+import { Prisma } from "@prisma/client";// Mengimpor tipe Prisma dari paket @prisma/client. Tipe ini digunakan untuk mendefinisikan tipe data yang berkaitan dengan model transaksi dalam database, termasuk relasi dengan kategori transaksi.
+import { prisma } from "@/lib/prisma";// Mengimpor instance Prisma dari file prisma.ts di direktori lib. Instance ini digunakan untuk berinteraksi dengan database, termasuk melakukan query untuk mengambil data transaksi berdasarkan userId dan halaman saat ini.
 
 const PAGE_SIZE = 10;
 
 export async function getTransactions(
   userId: string,
-  page: number = 1
+  page: number = 1,
+  search?: string
 ) {
   const skip = (page - 1) * PAGE_SIZE;
+  
+  const where: Prisma.TransactionWhereInput = {
+  userId,
+  
+  
+};
+
+if (search) {
+  where.OR = [
+    {
+      description: {
+        contains: search,
+        mode: "insensitive",
+      },
+    },
+    {
+      category: {
+        name: {
+          contains: search,
+          mode: "insensitive",
+        },
+      },
+    },
+  ];
+}
 
   const [transactions, totalTransactions] =
     await Promise.all([
       prisma.transaction.findMany({
-        where: {
-          userId,
-        },
+             where,
+          
+       
         include: {
           category: true,
         },
@@ -25,9 +52,7 @@ export async function getTransactions(
       }),
 
       prisma.transaction.count({
-        where: {
-          userId,
-        },
+        where,
       }),
     ]);
 
@@ -41,5 +66,6 @@ export async function getTransactions(
     totalPages,
     totalTransactions,
     pageSize: PAGE_SIZE,
+    
   };
 }

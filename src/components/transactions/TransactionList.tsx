@@ -1,7 +1,7 @@
 import TransactionCard from "@/components/TransactionCard";
 import type { TransactionWithCategory } from "@/types/transaction";
 
-
+import { Button } from "../ui/button";
 
 type TransactionListProps = {
   transactions: TransactionWithCategory[];
@@ -10,6 +10,7 @@ type TransactionListProps = {
 export default function TransactionList({
   transactions,
 }: TransactionListProps) {
+
   if (transactions.length === 0) {
     return (
       <p className="text-center text-muted-foreground">
@@ -20,6 +21,13 @@ export default function TransactionList({
 
   return (
     <div className="space-y-4">
+       <Button
+          asChild
+          variant="ghost"
+        >
+
+      </Button>
+      
       {transactions.map((transaction) => (
         <TransactionCard
           key={transaction.id}
